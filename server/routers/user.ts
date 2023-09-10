@@ -31,7 +31,9 @@ export const userRouter = router({
             password: z.string()
         }))
         .mutation(async (opts) => {
-            let response = await opts.ctx.db.User.findById(opts.ctx.userId);
+            let response = await opts.ctx.db.User.find({
+                email: opts.input.username
+            });
             if (!response) {
                 throw new TRPCError({ code: 'UNAUTHORIZED' });
             }
